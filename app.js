@@ -49,7 +49,21 @@ app.get('/home',(req,res) => {
         res.json(result);
     });
 });
-
+app.get('/permi',(req,res) => {
+  let x=req.body;
+  x=x.user;
+  let y=req.body;
+  y=y.permission;
+  const query2 = "select TypeOfFeature from final2 inner join userrole on final2.TypeOfUser=userrole.TypeOfUser where  PermiId="+ mysql.escape(y)+ "and  userrole.UserId= " + mysql.escape(x) ;
+  console.log(query2);
+  connection.query(query2, (err, result) => {
+      if(err) throw err;
+      if(result.length===0)
+      res.send("User dont have access to any feature");
+      else
+      res.json(result);
+  });
+});
 app.listen(5000, () => {
     console.log('Server is running at port 5000');
 });
